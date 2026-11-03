@@ -5,7 +5,7 @@ from PIL import Image
 import tensorflow as tf
 
 IMG = 128
-N_IMAGENES = 5
+N_IMAGENES = 6
 labels = ["non_violence", "violence"]
 
 CARPETA = os.path.dirname(os.path.abspath(__file__))
