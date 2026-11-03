@@ -161,3 +161,11 @@ plt.show()
 model.save(os.path.join(DRIVE, "baseline.keras"))
 df.to_csv(os.path.join(DRIVE, "baseline_history.csv"), index=False)
 print("Modelo guardado en", os.path.join(DRIVE, "baseline.keras"))
+
+from sklearn.metrics import confusion_matrix, classification_report
+
+for nombre, imagenes, y in [("val", val_images, val_labels), ("test", test_images, test_labels)]:
+    pred_clase = np.argmax(model.predict(imagenes, verbose=0), axis=1)
+    print(f"\nMatriz de confusión ({nombre}):")
+    print(pd.DataFrame(confusion_matrix(y, pred_clase), index=labels, columns=labels))
+    print(classification_report(y, pred_clase, target_names=labels, digits=3))
