@@ -36,9 +36,9 @@ En Google Colab casi todo viene instalado; si falta `kagglehub`: `!pip install -
 |---|---|
 | `understanding-preparation.ipynb` | Comprensión y preparación de los datos. Descarga el dataset de Kaggle, revisa clases y formato, calcula embeddings con MobileNetV2, elimina duplicados y fotogramas oscuros, agrupa imágenes similares (componentes conexas, τ = 0.75) y hace la partición train/val por grupos para evitar fuga de fotogramas del mismo video. También clona el dataset de Bianculli y extrae 8 fotogramas por video para el conjunto de prueba. |
 | `baseline.py` | Modelo base: CNN sencilla (1 capa convolucional + densa) con imágenes de 128 × 128. Carga la partición, entrena 20 épocas, grafica loss/accuracy, evalúa en validación y prueba (matriz de confusión y reporte de clasificación) y guarda el modelo. |
-| `predict.py` | Prueba del modelo: carga `baseline.keras`, clasifica hasta 6 imágenes de la carpeta `images/` e imprime y muestra la clase predicha con su probabilidad. |
+| `predict.ipynb` | Prueba del modelo (Colab): carga `baseline.keras` desde Drive, lee las imágenes de `MyDrive/violence-detection/images/` e imprime y muestra la clase predicha con su probabilidad. |
 | `baseline.ipynb` | Notebook para Colab que clona (o actualiza) este repositorio y ejecuta `predict.py`. |
-| `images/` | Imágenes propias para probar el modelo con `predict.py`. |
+| `images/` | Imágenes propias para probar el modelo con `predict.ipynb`. |
 | `Evidencia_modulo07_Kamila.pdf` | Documento de la entrega. |
 
 ### Archivos generados (se guardan en Google Drive, `MyDrive/violence-detection/`, no en el repo)
@@ -49,7 +49,7 @@ En Google Colab casi todo viene instalado; si falta `kagglehub`: `!pip install -
 | `splits.csv` | `understanding-preparation.ipynb` | `baseline.py` |
 | `bianculli_frames.csv` | `understanding-preparation.ipynb` | `baseline.py` |
 | `bianculli_frames.zip` | `understanding-preparation.ipynb` | `baseline.py` (y el notebook en corridas posteriores) |
-| `baseline.keras` | `baseline.py` | `predict.py` |
+| `baseline.keras` | `baseline.py` | `predict.ipynb` |
 | `baseline_history.csv` | `baseline.py` | — (historial de entrenamiento) |
 
 ## Dependencia entre archivos
@@ -61,7 +61,7 @@ understanding-preparation.ipynb
 baseline.py
         │  genera baseline.keras, baseline_history.csv  (en Drive)
         ▼
-predict.py  ◄── images/
+predict.ipynb  ◄── MyDrive/violence-detection/images/
         ▲
 baseline.ipynb  (clona el repo y corre predict.py)
 ```
@@ -91,15 +91,8 @@ Requiere los archivos del paso 1 en `MyDrive/violence-detection/`. En una celda 
 
 Descarga el dataset de Kaggle, descomprime los fotogramas de prueba, entrena y guarda `baseline.keras` y `baseline_history.csv` en Drive. Este script monta Drive siempre, así que solo corre en Colab.
 
-### 3. `predict.py`
+### 3. `predict.ipynb`
 
-Requiere `baseline.keras`. Busca primero el modelo junto al script; si no está, monta Drive y lo toma de `MyDrive/violence-detection/baseline.keras`.
+Requiere `baseline.keras` en `MyDrive/violence-detection/`. Subir las imágenes a probar a `MyDrive/violence-detection/images/` (la carpeta se crea sola la primera vez que se corre el notebook), abrir el notebook en Colab y ejecutar todas las celdas.
 
-- **En Colab:** abrir y ejecutar `baseline.ipynb`, que clona el repo y corre `predict.py`.
-- **En local:** copiar `baseline.keras` a la carpeta del repo y ejecutar
-
-  ```bash
-  python predict.py
-  ```
-
-Para probar otras imágenes, agregarlas a `images/` (`.jpg`, `.jpeg`, `.png`, `.bmp`, `.webp`). Se clasifican las primeras 6 en orden alfabético.
+Se clasifican todas las imágenes `.jpg`, `.jpeg`, `.png`, `.bmp` o `.webp` de esa carpeta.
